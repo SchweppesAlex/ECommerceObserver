@@ -1,50 +1,57 @@
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Order {
-    // Skeleton attributes
-    private int id;
-    private int itemCount;
-    private double itemCost;
-    private double shippingCost;
-    private List<OrderObserver> observers;
+    private List<OrderObserver> observers = new ArrayList<>();
+    private int itemCount = 0;
+    private double totalPrice = 0;
+    private double shippingCost = 10; // default
 
-    public Order(int id) {
-        // Constructor skeleton (no logic)
-    }
-
-    // Skeleton method to attach an observer
     public void attach(OrderObserver observer) {
-        // Method skeleton
+        observers.add(observer);
     }
 
-    // Skeleton method to detach an observer
     public void detach(OrderObserver observer) {
-        // Method skeleton
+        observers.remove(observer);
     }
 
-    // Skeleton method to notify observers
     public void notifyObservers() {
-        // Method skeleton
+        for (OrderObserver observer : observers) {
+            observer.update(this);
+        }
     }
 
-    // Skeleton method to add an item to the order
     public void addItem(double price) {
-        // Method skeleton
+        itemCount++;
+        totalPrice += price;
+        notifyObservers();
     }
 
-    // Skeleton method to get total price
+    public int getItemCount() {
+        return itemCount;
+    }
+
     public double getTotalPrice() {
-        return 0.0; // Placeholder
+        return totalPrice;
     }
 
-    // Skeleton method to get item count
-    public int getCount() {
-        return 0; // Placeholder
+    public void setTotalPrice(double price) {
+        this.totalPrice = price;
+    }
+
+    public double getShippingCost() {
+        return shippingCost;
+    }
+
+    public void setShippingCost(double cost) {
+        this.shippingCost = cost;
     }
 
     @Override
     public String toString() {
-        return ""; // Placeholder
+        return "Order Summary:\n" +
+                "- Items: " + itemCount + "\n" +
+                "- Total Price: $" + totalPrice + "\n" +
+                "- Shipping: $" + shippingCost;
     }
 }
